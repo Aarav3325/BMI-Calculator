@@ -11,9 +11,9 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var weightText : EditText
-    private lateinit var heightText : EditText
-    private lateinit var calcButton : Button
+    private lateinit var weightText: EditText
+    private lateinit var heightText: EditText
+    private lateinit var calcButton: Button
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
@@ -36,13 +36,13 @@ class MainActivity : AppCompatActivity() {
             val height = heightText.text.toString()
 
 
-                if (validateInput(weight, height)) {
-                    val bmi =
-                        (weight.toFloat()) / ((height.toFloat() / 100) * (height.toFloat() / 100))
-                    val bmi2D = String.format("%.2f", bmi).toFloat()
-                    displayResult(bmi2D)
-                }
+            if (validateInput(weight, height)) {
+                val bmi =
+                    (weight.toFloat()) / ((height.toFloat() / 100) * (height.toFloat() / 100))
+                val bmi2D = String.format("%.2f", bmi).toFloat()
+                displayResult(bmi2D)
             }
+        }
 
 
     }
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         val weight = weightText.text.toString().toInt()
         val height = heightText.text.toString().toInt()
-        editor.apply{
+        editor.apply {
             putInt("sf_weight", weight)
             putInt("sf_height", height)
             commit()
@@ -62,15 +62,15 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         val weight = sharedPreferences.getInt("sf_weight", 0)
         val height = sharedPreferences.getInt("sf_height", 0)
-        if(weight!=0){
+        if (weight != 0) {
             weightText.setText(weight.toString())
         }
-        if(height!=0){
+        if (height != 0) {
             heightText.setText(height.toString())
         }
     }
 
-    private fun validateInput(weight : String?, height : String?):Boolean{
+    private fun validateInput(weight: String?, height: String?): Boolean {
         if (weight.isNullOrEmpty() && height.isNullOrEmpty()) {
             Toast.makeText(this, "Enter weight and height", Toast.LENGTH_SHORT).show()
             return false
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayResult(bmi : Float){
+    private fun displayResult(bmi: Float) {
         var resultIndex = findViewById<TextView>(R.id.tvIndex)
         var resultDescription = findViewById<TextView>(R.id.tvResult)
         var info = findViewById<TextView>(R.id.tvInfo)
@@ -104,19 +104,22 @@ class MainActivity : AppCompatActivity() {
         var resultText = ""
         var color = 0
 
-        when{
+        when {
             bmi < 18.50 -> {
                 resultText = "Underweight"
                 color = R.color.underweight
             }
-            bmi in 18.50..24.99 ->{
+
+            bmi in 18.50..24.99 -> {
                 resultText = "Healthy"
                 color = R.color.normal
             }
+
             bmi in 25.00..29.99 -> {
                 resultText = "Overweight"
                 color = R.color.overwieght
             }
+
             bmi > 29.99 -> {
                 resultText = "Obese"
                 color = R.color.obese
